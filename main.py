@@ -5,6 +5,7 @@ class TextHandler:
     def __init__(self):
         self.text = ""
         self.ans = []
+        self.ans_str = ""
         self.writed = False
         self.chandeg = False
 
@@ -33,12 +34,15 @@ class TextHandler:
             if not self.ans:
                 print("Палиндромов не обнаружено")
             else:
-                print(self.ans)
+                self.pretty()
+                print(self.ans_str)
         else:
             print("Сначала проверьте текст на палиндромы")
 
     def pretty(self):
-        pass
+        for item in self.ans:
+            self.ans_str += item + " "
+
 
 def print_menu():
     """Выводит меню с доступными заданиями."""

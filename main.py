@@ -5,48 +5,42 @@ class TextHandler:
     def __init__(self):
         self.text = ""
         self.ans = []
-        self.ans_str = ""
         self.writed = False
         self.chandeg = False
 
     def get_text(self):
         self.writed = True
-        print("\nВведите текст")
-        self.text = str(input())
+        self.text = input("\nВведите текст: ")
 
     def gen_text(self):
         self.writed = True
-        print("\nВведите длину текста")
-        len_txt = int(input())
+        len_txt = int(input("\nВведите длину текста: "))
         all_symbols = string.ascii_uppercase + " "
         self.text = ''.join(random.choice(all_symbols) for _ in range(len_txt))
 
-    def palindrome(self):
+    def is_palindrome(self, word):
+        return word == word[::-1]
+
+    def find_palindromes(self):
         if self.writed:
             self.chandeg = True
             list_of_words = self.text.split()
-            self.ans = [word for word in list_of_words if word == word[::-1]]
+            self.ans = [word for word in list_of_words if self.is_palindrome(word)]
         else:
             print("Сначала введите текст")
 
-    def result(self):
+    def display_result(self):
         if self.chandeg:
             if not self.ans:
                 print("Палиндромов не обнаружено")
             else:
-                self.pretty()
-                print(self.ans_str)
+                print(" ".join(self.ans))
         else:
             print("Сначала проверьте текст на палиндромы")
 
-    def pretty(self):
-        for item in self.ans:
-            self.ans_str += item + " "
-
-
 def print_menu():
     """Выводит меню с доступными заданиями."""
-    print("\nВыберете пункт меню")
+    print("\nВыберете пункт меню:")
     print("1. Ввод исходных данных вручную")
     print("2. Ввод исходных данных сгенерированных случайным образом")
     print("3. Выполнение алгоритма по заданию")
@@ -61,21 +55,12 @@ def main():
         print_menu()  # Выводим меню
         choice = int(input("Выберите пункт меню: "))  # Запрашиваем выбор пользователя
 
-        if choice == 1:
-            text_handler.get_text()
-            text_handler.chandeg = False
-        elif choice == 2:
-            text_handler.gen_text()
-            text_handler.chandeg = False
-        elif choice == 3:
-            text_handler.palindrome()
-        elif choice == 4:
-            text_handler.result()
-        elif choice == 5:
-            print("Завершение работы программы.")  # Сообщаем о завершении
-            break  # Выходим из цикла
-        else:
-            print("Неверный выбор.")  # Обработка неверного выбора
+        (choice == 1 and text_handler.get_text()) or \
+        (choice == 2 and text_handler.gen_text()) or \
+        (choice == 3 and text_handler.find_palindromes()) or \
+        (choice == 4 and text_handler.display_result()) or \
+        (choice == 5 and (print("Завершение работы программы."), exit())) or \
+        print("Неверный выбор.")  # Обработка неверного выбора
 
 if __name__ == "__main__":
     main()  # Запуск основной функции при выполнении скрипта
